@@ -54,7 +54,7 @@ Ejemplo de etiquetas:
 ## 📄 Capturas o Diagrama del Flujo
 
 <img width="939" height="548" alt="image" src="https://github.com/user-attachments/assets/742ff5ca-48e5-4069-bdf4-2d518cc9cc4e" />
-![WhatsApp Image 2025-11-03 at 10 18 13_9907d45a](https://github.com/user-attachments/assets/b192c064-77c9-4aec-9840-e69dbcde99f3)
+<img width="1100" height="516" alt="image" src="https://github.com/user-attachments/assets/8f3232aa-cb7f-4bb5-a50a-b35ae3497a3b" />
 
 ---
 
