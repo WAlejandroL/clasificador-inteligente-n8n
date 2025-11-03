@@ -1,0 +1,191 @@
+{
+  "name": "Clasificador",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://router.huggingface.co/hf-inference/models/typeform/distilbert-base-uncased-mnli",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer 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"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"inputs\": \"{{$json[\\\"message\\\"][\\\"text\\\"]}}\",\n  \"parameters\": {\n    \"candidate_labels\": [\"urgente\", \"soporte\", \"compra\", \"información\"]\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "a43143d8-20cc-405a-8964-c0230bec3d2c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "450e8590-3ab7-4669-9fa5-05d0734dc8de",
+              "leftValue": "={{$json[\"labels\"][3]}}",
+              "rightValue": "urgente",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "d19a62d5-3f8e-4337-8a8a-7729c58ae331",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "6799959414",
+        "text": "Urgente",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        -96
+      ],
+      "id": "5582572b-a155-4e6d-ac72-b86591360eb8",
+      "name": "Send a text message",
+      "webhookId": "7d9ab4db-3064-4bf2-80a8-09b8226a21d9",
+      "credentials": {
+        "telegramApi": {
+          "id": "lSPLBXapCjPWwZwB",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "0497080c-c5c6-4ac7-a16c-57ee7987df0c",
+      "name": "Telegram Trigger",
+      "webhookId": "8cff1a22-9bcf-404a-8745-d638c86362a1",
+      "credentials": {
+        "telegramApi": {
+          "id": "lSPLBXapCjPWwZwB",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=6799959414",
+        "text": "No es tan urgente",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        96
+      ],
+      "id": "73b4ede6-33b9-454d-a23f-d235150dcbcd",
+      "name": "Send a text message1",
+      "webhookId": "688e544a-cecb-4283-93b9-69081636d3c7",
+      "credentials": {
+        "telegramApi": {
+          "id": "lSPLBXapCjPWwZwB",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Telegram Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "714ce4d5-d40a-4f1c-aa4a-8c27f9e41931",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4ec86cc1cd7c7f040b81878e60214c61f597b26ea0912fdeee7d103d6fb05078"
+  },
+  "id": "s6NjpJSDqJK2BYV7",
+  "tags": []
+}
